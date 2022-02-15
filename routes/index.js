@@ -4,31 +4,21 @@ var router = express.Router();
 let creating_room=[];
 let booking_room=[];
 
-/* GET home page. */
-//router.get('/createget', function(req, res, next) {
- // res.json({
- //   statusCode:200,
- //   data:creating_room,
- // })
-//});
-router.get('/:id', function(req, res, next) {
-  if(req.params.id)
+router.get('/rooms_with', function(req, res, next) {
 res.json({
    statusCode:200,
-    data:booking_room,
+    data:creating_room,
   })
 });
 
 router.post('/creating',(req,res)=>{
-  console.log(req.body);
   creating_room.push(req.body)
   res.send({
     statusCode:200,
     message:"Data saved successfully creating room",
-  
+    data:creating_room
   })
 })
-
 router.post('/booking',(req,res)=>{
   console.log(req.body);
   booking_room.push(req.body)
@@ -37,17 +27,21 @@ router.post('/booking',(req,res)=>{
     message:"Data saved successfully for booking room "
   })
 })
-
-router.get('/:room_id',(req,res)=>{
+// getting details for booked data
+router.get('/:id',(req,res)=>{
+ if(req.params.id=booking_room.length)
   {
   res.json({
     statusCode:200,
-    data:booking_room[req.params.id],
+    message:"This is the time allocated to this customer",
+  })
+}
+else{
+  res.json({
+    statusCode:400,
+    message:"Already booked"
   })
 }
 })
-
-
-
 
 module.exports = router;
